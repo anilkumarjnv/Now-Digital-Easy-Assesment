@@ -16,7 +16,18 @@ const App = () => {
   }, []);
 
   const addToFavorites = (postId) => {
-    setFavorites([...favorites, postId]);
+    var id=0;
+    for(let i=0;i<favorites.length;i++){
+      if(favorites[i]===postId){
+        id=id+1;
+      }
+    }
+    if(id===0){
+      setFavorites([...favorites, postId]);
+    }else{
+      console.log("already added to favourites")
+    }
+    
   };
 
   return (
@@ -35,7 +46,7 @@ const App = () => {
         <Container>
           <Routes>
             <Route path="/favorites" element={<FavoritesPage favorites={favorites} posts={posts} />} />
-            <Route path="/posts/:postId" element={<SinglePostPage posts={posts}addToFavorites={addToFavorites} />} />
+            <Route path="/posts/:postId" element={<SinglePostPage posts={posts} addToFavorites={addToFavorites} />} />
             <Route path="/" element={<PostListPage posts={posts} addToFavorites={addToFavorites} />} />
           </Routes>
         </Container>
@@ -108,7 +119,7 @@ const FavoritesPage = ({ favorites, posts }) => {
           <Card key={post.id} sx={{ marginBottom: 2 }}>
             <CardContent>
               <Typography variant="h6" component="div">
-                <Link to={`/posts/${post.id}`}>{post.title}</Link>
+              <Link to={`/posts/${post.id}`} state={{title:post.title,id:post.id}}>{post.title}</Link>
               </Typography>
             </CardContent>
           </Card>
